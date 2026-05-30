@@ -389,7 +389,7 @@
 <body>
   <script>
 if(localStorage.getItem("loggedIn") !== "true"){
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
 </script>
 
@@ -464,7 +464,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
     const user = localStorage.getItem("currentUser");
 
     if(!user){
-        window.location.href = "login.html";
+        window.location.href = "index.html";
         return;
     }
 
@@ -708,7 +708,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
 
   function logout(){
     localStorage.removeItem("loggedIn");
-    window.location.href = "login.html";
+    window.location.href = "index.html";
     }
   
   // Event binding for filter btns & clear completed
