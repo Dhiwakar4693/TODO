@@ -389,7 +389,7 @@
 <body>
   <script>
 if(localStorage.getItem("loggedIn") !== "true"){
-    window.location.href = "index.html";
+    window.location.href = "login.html";
 }
 </script>
 
@@ -448,30 +448,35 @@ if(localStorage.getItem("loggedIn") !== "true"){
   const clearCompletedBtn = document.getElementById("clearCompletedBtn");
   
   // ---------- HELPER FUNCTIONS (localStorage) ----------
-  function saveToLocalStorage() {
-    localStorage.setItem("flowTodo_data", JSON.stringify(todos));
-  }
+ function saveToLocalStorage() {
+    const user = localStorage.getItem("currentUser");
+
+    if(user){
+        localStorage.setItem(
+            `flowTodo_${user}`,
+            JSON.stringify(todos)
+        );
+    }
+}
   
   function loadFromLocalStorage() {
-    const stored = localStorage.getItem("flowTodo_data");
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          todos = parsed;
-        } else {
-          todos = [];
-        }
-      } catch(e) { todos = []; }
-    } else {
-      // initial demo tasks
-      todos = [
-        { id: Date.now() + 1, text: "Explore the modern design ✨", completed: false },
-        { id: Date.now() + 2, text: "Complete your tasks with ease", completed: false },
-        { id: Date.now() + 3, text: "Try editing or deleting", completed: true }
-      ];
+
+    const user = localStorage.getItem("currentUser");
+
+    if(!user){
+        window.location.href = "login.html";
+        return;
     }
-  }
+
+    const stored = localStorage.getItem(`flowTodo_${user}`);
+
+    if(stored){
+        todos = JSON.parse(stored);
+    }
+    else{
+        todos = [];
+    }
+}
   
   // ----- RENDER: filters, edit mode handling -----
   function renderTodoList() {
