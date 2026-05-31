@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>FlowTodo | Elegant Task Manager</title>
-  <button onclick="logout()">Logout</button>
   <style>
     * {
       margin: 0;
@@ -674,7 +673,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
     };
     todos.unshift(newTodo);
     taskInput.value = "";
-    if (editModeId) editModeId = null;
+    if (editModeId !== null) editModeId = null;
     saveToLocalStorage();
     // If filter is 'completed' we might not see new active task, but that's expected UX; switch to all maybe? but we keep filter
     // to be user friendly: if currentFilter === 'completed', we could optionally not show but user expects? better to keep filter.
@@ -686,7 +685,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
   // Clear completed tasks
   function clearCompleted() {
     todos = todos.filter(t => !t.completed);
-    if (editModeId) editModeId = null;
+    if (editModeId !== null) editModeId = null;
     saveToLocalStorage();
     renderTodoList();
   }
@@ -708,8 +707,9 @@ if(localStorage.getItem("loggedIn") !== "true"){
 
   function logout(){
     localStorage.removeItem("loggedIn");
+    localStorage.removeItem("currentUser");
     window.location.href = "index.html";
-    }
+}
   
   // Event binding for filter btns & clear completed
   function bindGlobalEvents() {
