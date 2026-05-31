@@ -386,14 +386,6 @@
   </style>
 </head>
 <body>
-  <script>
-console.log("TODO PAGE");
-console.log("loggedIn =", localStorage.getItem("loggedIn"));
-
-if(localStorage.getItem("loggedIn") !== "true"){
-    window.location.href = "index.html";
-}
-</script>
 
 <div class="todo-app">
   <div class="app-header">
@@ -436,6 +428,12 @@ if(localStorage.getItem("loggedIn") !== "true"){
 </div>
 
 <script>
+ console.log("TODO PAGE");
+console.log("loggedIn =", localStorage.getItem("loggedIn"));
+
+if(localStorage.getItem("loggedIn") !== "true"){
+    window.location.href = "index.html";
+}
   // ---------- APP STATE ----------
   let todos = [];           // each todo: { id, text, completed }
   let currentFilter = "all";   // 'all', 'active', 'completed'
