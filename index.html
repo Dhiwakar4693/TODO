@@ -203,13 +203,6 @@ body{
 
 
 <body>
-    <script>
-if(localStorage.getItem("loggedIn") === "true"){
-    window.location.href = "todo.html";
-}
-</script>
-
-
 
 <div class="login-card">
 
@@ -293,18 +286,13 @@ if(localStorage.getItem("loggedIn") === "true"){
 
 <script>
 
+    console.log("INDEX PAGE");
+    console.log("loggedIn =", localStorage.getItem("loggedIn"));
 
-
-// Auto redirect if already logged in
-
-if(localStorage.getItem("loggedIn") === "true"){
-
-    window.location.href = "todo.html";
-
-}
-
-
-
+    if(localStorage.getItem("loggedIn") === "true"){
+        window.location.href = "todo.html";
+    }
+    
 document.getElementById("loginForm").addEventListener("submit", function(e){
 
 
