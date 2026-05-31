@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Todo App Login</title>
-
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<title>FlowTodo Login</title>
 
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
+font-family:Arial,sans-serif;
 }
 
 body{
@@ -21,375 +18,128 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#6c5ce7,#a29bfe);
-padding:20px;
+background:linear-gradient(145deg,#e9f0fc,#d9e3f0);
 }
 
-.login-card{
-background:#fff;
-width:100%;
-max-width:420px;
+.card{
+background:white;
 padding:40px;
-border-radius:24px;
+border-radius:20px;
+width:380px;
 text-align:center;
-box-shadow:0 20px 50px rgba(0,0,0,.15);
-}
-
-.logo{
-font-size:60px;
-margin-bottom:10px;
+box-shadow:0 10px 30px rgba(0,0,0,.15);
 }
 
 h1{
-color:#333;
+color:#2563eb;
 margin-bottom:10px;
 }
 
-.subtitle{
-color:#777;
-margin-bottom:30px;
+p{
+color:#64748b;
+margin-bottom:25px;
 }
 
-.profile{
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#2563eb;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+img{
+width:70px;
+height:70px;
+border-radius:50%;
+margin-bottom:15px;
 display:none;
 }
 
-.profile img{
-width:90px;
-height:90px;
-border-radius:50%;
-margin-bottom:15px;
-border:4px solid #6c5ce7;
-}
-
-.profile h2{
-font-size:20px;
-color:#333;
-margin-bottom:5px;
-}
-
-.profile p{
-color:#666;
+#userName{
 margin-bottom:20px;
-word-break:break-word;
-}
-
-.btn{
-padding:12px 20px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:600;
-transition:.3s;
-}
-
-.logout-btn{
-background:#e74c3c;
-color:white;
-}
-
-.logout-btn:hover{
-background:#c0392b;
-}
-
-.go-btn{
-background:#6c5ce7;
-color:white;
-margin-top:10px;
-}
-
-.go-btn:hover{
-background:#5848d6;
-}
-
-.footer{
-margin-top:25px;
-font-size:13px;
-color:#999;
+font-weight:bold;
 }
 </style>
-
 </head>
 <body>
 
-<div class="login-card">
+<div class="card">
 
-<div class="logo">📝</div>
+<img id="userPhoto">
 
-<h1>Todo App</h1>
+<h1>FlowTodo</h1>
 
-<p class="subtitle">
-Sign in with your Google account
-</p><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<p id="userName">
+Sign in with Google
+</p>
 
-    <title>Login</title>
-
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, sans-serif;
-        }
-
-        body{
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:linear-gradient(135deg,#6c5ce7,#a29bfe);
-        }
-
-        .login-card{
-            background:white;
-            padding:40px;
-            border-radius:20px;
-            text-align:center;
-            box-shadow:0 10px 30px rgba(0,0,0,0.2);
-            width:350px;
-        }
-
-        .login-card h1{
-            margin-bottom:10px;
-            color:#333;
-        }
-
-        .login-card p{
-            margin-bottom:25px;
-            color:#666;
-        }
-
-        #googleSignInDiv{
-            display:flex;
-            justify-content:center;
-        }
-
-        .user-info{
-            display:none;
-            margin-top:20px;
-        }
-
-        .user-info img{
-            width:80px;
-            height:80px;
-            border-radius:50%;
-            margin-bottom:10px;
-        }
-
-        .logout-btn{
-            margin-top:15px;
-            padding:10px 20px;
-            border:none;
-            border-radius:10px;
-            background:#e74c3c;
-            color:white;
-            cursor:pointer;
-        }
-
-        .logout-btn:hover{
-            background:#c0392b;
-        }
-    </style>
-</head>
-<body>
-
-<div class="login-card">
-
-    <h1>Todo App</h1>
-    <p>Sign in with Google to continue</p>
-
-    <div id="googleSignInDiv"></div>
-
-    <div class="user-info" id="userInfo">
-        <img id="userPic" src="" alt="Profile">
-        <h3 id="userName"></h3>
-
-        <button class="logout-btn" onclick="logout()">
-            Logout
-        </button>
-    </div>
-
-</div>
-
-<script>
-
-function parseJwt(token) {
-    let base64Url = token.split('.')[1];
-    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    let jsonPayload = decodeURIComponent(
-        atob(base64)
-        .split('')
-        .map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join('')
-    );
-
-    return JSON.parse(jsonPayload);
-}
-
-function handleCredentialResponse(response) {
-
-    const data = parseJwt(response.credential);
-
-    localStorage.setItem("userName", data.name);
-    localStorage.setItem("userEmail", data.email);
-    localStorage.setItem("userPic", data.picture);
-    localStorage.setItem("loggedIn", "true");
-
-    window.location.href = "todo.html";
-}
-
-window.onload = function () {
-
-    if(localStorage.getItem("loggedIn") === "true"){
-        window.location.href = "todo.html";
-    }
-
-    google.accounts.id.initialize({
-        client_id: "196621314027-hibij3ivujctjmme21rhfc3dgrbek14s.apps.googleusercontent.com",
-        callback: handleCredentialResponse
-    });
-
-    google.accounts.id.renderButton(
-        document.getElementById("googleSignInDiv"),
-        {
-            theme: "outline",
-            size: "large",
-            width: 280
-        }
-    );
-}
-
-function logout(){
-    localStorage.clear();
-    location.reload();
-}
-
-</script>
-
-</body>
-</html>
-
-<div id="loginSection">
-
-<div
-id="g_id_onload"
-data-client_id="196621314027-hibij3ivujctjmme21rhfc3dgrbek14s.apps.googleusercontent.com"
-data-context="signin"
-data-callback="handleCredentialResponse"
-data-auto_prompt="false">
-</div>
-
-<div
-class="g_id_signin"
-data-type="standard"
-data-shape="pill"
-data-theme="outline"
-data-text="signin_with"
-data-size="large"
-data-logo_alignment="left">
-</div>
-
-</div>
-
-<div id="profileSection" class="profile">
-
-<img id="userPic">
-
-<h2 id="userName"></h2>
-
-<p id="userEmail"></p>
-
-<button class="btn go-btn" onclick="goToTodo()">
-Open Todo App
-</button>
-
-<br><br>
-
-<button class="btn logout-btn" onclick="logout()">
-Logout
+<button id="loginBtn">
+Continue with Google
 </button>
 
 </div>
 
-<div class="footer">
-Google Identity Services Login
-</div>
+<script type="module">
 
-</div>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
 
-<script>
+import {
+getAuth,
+GoogleAuthProvider,
+signInWithPopup,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-function parseJwt(token){
-return JSON.parse(
-atob(token.split('.')[1])
-);
-}
+const firebaseConfig = {
+apiKey: "AIzaSyDp1nDWAhhORIXgflU70-HfW4QchoEFru0",
+authDomain: "todo-f8e84.firebaseapp.com",
+projectId: "todo-f8e84",
+storageBucket: "todo-f8e84.firebasestorage.app",
+messagingSenderId: "551875020073",
+appId: "1:551875020073:web:fb71bc9d159ae8f1bb2338",
+measurementId: "G-EREVQ5HX4D"
+};
 
-function handleCredentialResponse(response){
+const app = initializeApp(firebaseConfig);
 
-const user=parseJwt(response.credential);
+const auth = getAuth(app);
 
-localStorage.setItem("loggedIn","true");
-localStorage.setItem("userName",user.name);
-localStorage.setItem("userEmail",user.email);
-localStorage.setItem("userPicture",user.picture);
+const provider = new GoogleAuthProvider();
 
-showProfile();
-}
+document.getElementById("loginBtn")
+.addEventListener("click", async () => {
 
-function showProfile(){
+try{
 
-const loggedIn=localStorage.getItem("loggedIn");
+await signInWithPopup(auth, provider);
 
-if(loggedIn==="true"){
+window.location.href = "todo.html";
 
-document.getElementById("loginSection").style.display="none";
+}catch(err){
 
-document.getElementById("profileSection").style.display="block";
-
-document.getElementById("userName").textContent=
-localStorage.getItem("userName");
-
-document.getElementById("userEmail").textContent=
-localStorage.getItem("userEmail");
-
-document.getElementById("userPic").src=
-localStorage.getItem("userPicture");
-
-}else{
-
-document.getElementById("loginSection").style.display="block";
-
-document.getElementById("profileSection").style.display="none";
-
-}
-}
-
-function logout(){
-
-localStorage.removeItem("loggedIn");
-localStorage.removeItem("userName");
-localStorage.removeItem("userEmail");
-localStorage.removeItem("userPicture");
-
-location.reload();
-}
-
-function goToTodo(){
-
-window.location.href="todo.html";
+alert(err.message);
 
 }
 
-showProfile();
+});
+
+onAuthStateChanged(auth, (user)=>{
+
+if(user){
+
+window.location.href = "todo.html";
+
+}
+
+});
 
 </script>
 
