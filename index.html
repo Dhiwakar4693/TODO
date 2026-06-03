@@ -1,92 +1,274 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlowTodo Login</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>FlowTodo — Elegant Sign in</title>
+<!-- Preconnect to Google Fonts for performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(145deg,#e9f0fc,#d9e3f0);
-}
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 20% 30%, #f8fafd, #eef2f8);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    padding: 1.5rem;
+    position: relative;
+    transition: background 0.3s ease;
+  }
 
-.card{
-background:white;
-padding:40px;
-border-radius:20px;
-width:380px;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,.15);
-}
+  /* subtle animated gradient overlay for depth */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 70% 20%, rgba(37, 99, 235, 0.04), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-h1{
-color:#2563eb;
-margin-bottom:10px;
-}
+  /* main card – soft glassmorphism + refined shadows */
+  .card {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(0px);
+    padding: 2.8rem 2.2rem 3rem;
+    border-radius: 2.5rem;
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 
+      0 25px 45px -12px rgba(0, 0, 0, 0.12),
+      0 4px 12px rgba(0, 0, 0, 0.02),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
 
-p{
-color:#64748b;
-margin-bottom:25px;
-}
+  .card:hover {
+    box-shadow: 0 30px 50px -18px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
 
-button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-background:#2563eb;
-color:white;
-font-size:16px;
-cursor:pointer;
-}
+  /* profile image – smooth circle, appears only if needed (but stays elegant) */
+  #userPhoto {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.25rem;
+    display: none;
+    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.15), 0 0 0 3px white, 0 0 0 6px rgba(37, 99, 235, 0.2);
+    transition: all 0.2s;
+  }
 
-button:hover{
-background:#1d4ed8;
-}
+  /* brand heading with fine-tuned gradient */
+  h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(125deg, #1e2b5c, #2563eb, #3b82f6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
 
-img{
-width:70px;
-height:70px;
-border-radius:50%;
-margin-bottom:15px;
-display:none;
-}
+  /* subtle decorative accent instead of emoji */
+  h1::after {
+    content: "·";
+    font-size: 2.2rem;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: #3b82f6;
+    font-weight: 300;
+    opacity: 0.6;
+    transform: translateY(-2px);
+  }
 
-#userName{
-margin-bottom:20px;
-font-weight:bold;
-}
+  /* elegant chip-like user state */
+  #userName {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #2c3e66;
+    background: rgba(37, 99, 235, 0.08);
+    display: inline-block;
+    padding: 0.45rem 1.4rem;
+    border-radius: 60px;
+    margin: 0.75rem auto 1.6rem;
+    backdrop-filter: blur(4px);
+    letter-spacing: -0.2px;
+    transition: all 0.2s;
+    border: 0.5px solid rgba(37, 99, 235, 0.15);
+  }
+
+  /* button – minimal, elegant with subtle icon & refined interaction */
+  button {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: none;
+    border-radius: 3rem;
+    background: #ffffff;
+    color: #1f2b48;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02), 0 1px 1px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255,255,255,0.9);
+    border: 1px solid #e2e8f0;
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    letter-spacing: -0.2px;
+  }
+
+  /* google icon via pseudo - clean inline svg style */
+  button::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23FFC107' d='M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z'%3E%3C/path%3E%3Cpath fill='%2334A853' d='M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z'%3E%3C/path%3E%3Cpath fill='%234285F4' d='M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z'%3E%3C/path%3E%3Cpath fill='%23FBBC05' d='M43.611,20.083L43.595,20L24,20v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: transform 0.2s ease;
+  }
+
+  button:hover::before {
+    transform: scale(1.02);
+  }
+
+  button:hover {
+    background: #fafcff;
+    border-color: #cbd5e1;
+    box-shadow: 0 8px 18px -10px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+  }
+
+  button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  /* elegant extra micro details */
+  .card-footer-note {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 0.7rem;
+    font-weight: 450;
+    color: #8193b2;
+    letter-spacing: 0.2px;
+  }
+
+  .card-footer-note span {
+    background: rgba(0, 0, 0, 0.02);
+    padding: 4px 12px;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    backdrop-filter: blur(2px);
+  }
+
+  /* floating soft shapes for elegance */
+  .bg-bubble {
+    position: fixed;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.04) 0%, rgba(59,130,246,0) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bubble-1 {
+    width: 280px;
+    height: 280px;
+    top: -80px;
+    left: -80px;
+  }
+  .bubble-2 {
+    width: 360px;
+    height: 360px;
+    bottom: -120px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(37,99,235,0.03), transparent);
+  }
+
+  /* responsive perfection */
+  @media (max-width: 480px) {
+    .card {
+      padding: 2rem 1.5rem 2.2rem;
+      border-radius: 2rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+    }
+    button {
+      padding: 0.8rem;
+    }
+    #userName {
+      font-size: 0.85rem;
+      padding: 0.35rem 1.2rem;
+    }
+  }
+
+  /* smooth loading hint (optional no-js effect) */
+  @keyframes fadeSlide {
+    0% { opacity: 0; transform: translateY(6px);}
+    100% { opacity: 1; transform: translateY(0);}
+  }
+  .card {
+    animation: fadeSlide 0.5s ease-out;
+  }
 </style>
 </head>
 <body>
 
+<!-- ambient elegant background elements -->
+<div class="bg-bubble bubble-1"></div>
+<div class="bg-bubble bubble-2"></div>
+
 <div class="card">
+  <!-- profile photo (kept intact, elegant frame) -->
+  <img id="userPhoto" alt="account" crossorigin="anonymous">
 
-<img id="userPhoto">
+  <h1>FlowTodo</h1>
 
-<h1>FlowTodo</h1>
+  <p id="userName">
+    Sign in with Google
+  </p>
 
-<p id="userName">
-Sign in with Google
-</p>
+  <button id="loginBtn">
+    Continue with Google
+  </button>
 
-<button id="loginBtn">
-Continue with Google
-</button>
-
+  <div class="card-footer-note">
+    <span>✨ cloud sync</span>
+    <span>🔒 privacy first</span>
+  </div>
 </div>
 
+<!-- Firebase script – unchanged functionality, same imports, same logic, only layout enhanced -->
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
